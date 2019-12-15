@@ -8,7 +8,7 @@ spring:
     username: root
   redis:
     password:
-    port: 3306
+    port: 6379
     host: localhost
   rabbitmq:
     password: guest

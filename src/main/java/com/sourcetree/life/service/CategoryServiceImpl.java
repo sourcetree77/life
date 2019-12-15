@@ -5,9 +5,13 @@ import com.sourcetree.life.mapper.CategoryMapper;
 import com.sourcetree.life.request.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -20,10 +24,33 @@ public class CategoryServiceImpl implements CategoryService {
 
     private Logger logger= LoggerFactory.getLogger(CategoryServiceImpl.class);
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Autowired
     private CategoryMapper categoryMapper;
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+    @RabbitListener(queues = "queuequeue1")
+    public void receiveQueueA(String msg){
+        System.out.println("消费者 queueA 收到消息：" + msg);
+
+    }
+
     public int add(Category category) {
+
+        stringRedisTemplate.opsForValue().set("aa", "cc");
+        String s= stringRedisTemplate.opsForValue().get("aa");
+        System.out.print(s);
+
+        //mq的使用
+
+        amqpTemplate.convertAndSend("ExchangeExchange111", "", "mq的sfong1msg");
+
+
+
         CategoryPo categoryPo =new CategoryPo();
         BeanUtils.copyProperties(category, categoryPo);
         categoryPo.setUpdate_time(simpleDateFormat.format(new Date()));
