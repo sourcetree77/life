@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sourcetree.life.mapper.CategoryMapper">
+    <resultMap id="CategoryResult" type="com.sourcetree.life.entity.po.CategoryPo">
+        <id column="id" jdbcType="INTEGER" property="id"></id>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="order_id" jdbcType="INTEGER" property="order_id"/>
+        <result column="update_time" jdbcType="VARCHAR" property="update_time"/>
+    </resultMap>
+    
+    <sql id="column">
+        id,name,order_id,update_time
+    </sql>
+    <insert id="save1" parameterType="com.sourcetree.life.entity.po.CategoryPo">
+        insert  into l_category (name,order_id,update_time)
+        values (#{name},#{order_id},#{update_time})
+    </insert>
+
+    <insert id="save"    parameterType="com.sourcetree.life.entity.po.CategoryPo">
+        insert into l_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="order_id != null">order_id,</if>
+            <if test="update_time != null">update_time,</if>
+        </trim>
+
+        <trim prefix=" values( " suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="order_id != null">#{order_id},</if>
+            <if test="update_time != null">#{update_time},</if>
+        </trim>
+
+    </insert>
+
+
+    <update id="update1" parameterType="com.sourcetree.life.entity.po.CategoryPo">
+        update l_category set name =#{name },order_id=#{order_id}
+    </update>
+
+    <update id="update2" parameterType="com.sourcetree.life.entity.po.CategoryPo">
+        update l_category
+        <set>
+            <trim prefix="" suffix="" suffixOverrides=",">
+                <if test="name !=null">name =#{name },</if>
+                <if test="order_id !=null">order_id =#{order_id },</if>
+                <if test="update_time !=null">update_time =#{update_time },</if>
+            </trim>
+        </set>
+        where  id=#{id}
+
+    </update>
+
+    <update id="update" parameterType="map">
+        update l_category
+        <set>
+            <trim prefix="" suffix="" suffixOverrides=",">
+                <if test="aaa.name !=null">name =#{aaa.name },</if>
+                <if test="aaa.order_id !=null">order_id =#{aaa.order_id },</if>
+                <if test="aaa.update_time !=null">update_time =#{aaa.update_time },</if>
+            </trim>
+        </set>
+        where  id=#{aaa.id}
+
+    </update>
+
+
+    <delete id="delete1" parameterType="com.sourcetree.life.entity.po.CategoryPo">
+        delete  from l_category where id=#{id}
+    </delete>
+
+    <delete id="delete" parameterType="int">
+        delete  from l_category where id=#{id}
+    </delete>
+
+    <select id="findByid1" resultType="com.sourcetree.life.entity.po.CategoryPo">
+        select
+        <include refid="column"/>
+         from  l_category where id=#{id}
+    </select>
+
+    <select id="findByid2" resultType="com.sourcetree.life.entity.po.CategoryPo" parameterType="com.sourcetree.life.entity.po.CategoryPo">
+        select
+        <include refid="column"/>
+         from  l_category where id=#{id}
+    </select>
+
+    <!--<select id="findByid" resultMap="CategoryResult" parameterType="com.sourcetree.life.entity.po.CategoryPo">-->
+        <!--select-->
+        <!--<include refid="column"/>-->
+        <!--from  l_category where id=#{id}-->
+    <!--</select>-->
+
+    <select id="findByid" resultMap="CategoryResult" parameterType="map">
+        select
+        <include refid="column"/>
+        from  l_category where id=#{zzzz.id}
+    </select>
+
+</mapper>

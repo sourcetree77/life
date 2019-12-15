@@ -1,0 +1,24 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/life?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&autoReconnect=true&serverTimezone=Asia/Shanghai
+    password: 123
+    username: root
+  redis:
+    password:
+    port: 3306
+    host: localhost
+  rabbitmq:
+    password: guest
+    username: guest
+    host: localhost
+    port: 5672
+  profiles:
+    active: dev
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+
